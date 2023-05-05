@@ -312,7 +312,7 @@ with overview_tab:
             # Select relevant columns for correlation
             columns_to_correlate = ['revenue', 'clients', 'employees_at_start', 'employees_at_end', 'cofounders_female',
                                     'employees_hired_last_3_months', 'employees_left_last_3_months',
-                                    'funding_rounds_count', 'funding_rounds_capital_raised', "other_accelerator_count"]
+                                    'funding_rounds_count', 'funding_rounds_capital_raised', "other_accelerator_count", 'technology_count', 'technology_lb_cost']
 
             # Calculate correlation matrix
             corr_matrix = data[columns_to_correlate].corr()
@@ -468,6 +468,10 @@ with business_tab:
         st.markdown(f"- Employees at start: {firm_data['employees_at_start'].values[0]}")
         st.markdown(f"- Employees at end: {firm_data['employees_at_end'].values[0]}")
         st.markdown(f"- Female co-founders: {firm_data['cofounders_female'].values[0]}")
+
+        st.markdown('### Technology')
+        st.markdown(f"- Technology count: {firm_data['technology_count'].values[0]}")
+        st.markdown(f"- Technology cost: {firm_data['technology_lb_cost'].values[0]}")
 
         st.markdown("### Funding")
         st.markdown(f"- Funding rounds: {firm_data['funding_rounds_count'].values[0]}")
