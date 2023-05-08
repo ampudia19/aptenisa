@@ -198,8 +198,8 @@ if check_password():
         step=1
     )
 
-    overview_tab, business_tab, raw_tab = st.tabs(
-        ["Overview", "Business", "Raw data"]
+    overview_tab, business_tab, early_findings_tab, raw_tab = st.tabs(
+        ["Overview", "Business", "Early findings", "Raw data"]
     )
 
     # Apply filters to the data
@@ -343,7 +343,7 @@ if check_password():
 
 
         with correlations_subtab:
-            col1, col2 = st.columns(2)
+            col1, col2 = st.columns([0.6, 0.4])
             with col1:
                 # Select relevant columns for correlation
                 columns_to_correlate = ['revenue', 'clients', 'employees_at_start', 'employees_at_end', 'cofounders_female',
@@ -371,37 +371,40 @@ if check_password():
                     color=alt.Color('correlation:Q', scale=alt.Scale(domain=(-1, 1), range=['#d7191c', '#ffffbf', '#2c7bb6'])),
                     tooltip=['index', 'column', 'correlation']
                 ).properties(
-                    width=600,
-                    height=600,
+                    width=800,
+                    height=800,
                 )
 
                 st.altair_chart(heatmap, use_container_width=False)
 
             with col2:
-                # Create histogram for last 3 months' revenue
+                # Select y variable
+                y_variable_1 = st.selectbox("Select variable", columns_to_correlate, index=0)
+
+                # Create histogram
                 histogram = alt.Chart(filtered_data).mark_bar(opacity=0.7).encode(
-                    alt.X("revenue:Q", bin=alt.Bin(maxbins=50), title="Last 3 Months' Revenue"),
+                    alt.X(f"{y_variable_1}:Q", bin=alt.Bin(maxbins=50)),
                     alt.Y("count()", title="Number of Start-ups"),
                     alt.Color("ecosystem:N", legend=alt.Legend(title="ecosystem")),
                     tooltip=["project_name", "ecosystem", "count()"]
                 ).properties(
                     width=600,
                     height=300,
-                    title="Histogram of Last 3 Months' Revenue by tech hub"
                 )
 
                 st.altair_chart(histogram, use_container_width=True)
 
-                # Create histogram for last 3 months' revenue
+                y_variable_2 = st.selectbox("Select variable", columns_to_correlate, index=1)
+
+                # Create histogram
                 histogram = alt.Chart(filtered_data).mark_bar(opacity=0.7).encode(
-                    alt.X("clients:Q", bin=alt.Bin(maxbins=50), title="Number of clients"),
+                    alt.X(f"{y_variable_2}:Q", bin=alt.Bin(maxbins=50)),
                     alt.Y("count()", title="Number of Start-ups"),
                     alt.Color("ecosystem:N", legend=alt.Legend(title="ecosystem")),
                     tooltip=["project_name", "ecosystem", "count()"]
                 ).properties(
                     width=600,
                     height=300,
-                    title="Histogram of Last 3 Months' number of clients by tech hub"
                 )
                 st.altair_chart(histogram, use_container_width=True)
 
@@ -545,6 +548,21 @@ if check_password():
         # # Add more graphs, plots, and tables specific to aggregate/tech hub-specific data
         # # ...
 
+    # Early findings
+    with early_findings_tab:
+        st.markdown(
+            """
+            Based on the available data, we can observe some interesting patterns among the technological hubs. It's important to note that the number of observations is limited, but some trends can be seen:
+
+            - Different technological hubs seem to have different priorities when selecting firms to participate in the accelerator program. Some hubs prioritize well-established, female-led, and revenue-generating firms, while others focus on nascent firms with no funding and no revenue.
+
+            - The correlation plots indicate that firms participating in multiple accelerators might be underdeveloped in terms of their client base. On the other hand, female-led businesses seem to have a larger client base.
+
+            - Scatter plots reveal some marginal recruitment benefits and a possible relationship between firms' investment in digital technologies and their revenue.
+
+            It's essential to emphasize that the current data is insufficient to draw any definitive conclusions, and we lack a control group for comparison. However, these preliminary insights can serve as a starting point for further analysis and may prove useful for tech parks in defining the evaluation criteria for the second edition of the accelerator program.
+            """
+        )
     # Raw data
     with raw_tab:
         st.header("Raw Data")
