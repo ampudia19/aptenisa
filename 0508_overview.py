@@ -414,7 +414,7 @@ if check_password():
                 variables = ['revenue', 'clients',
                             'employees_at_start', 'employees_at_end', 'cofounders_female',
                             'employees_hired_last_3_months', 'employees_left_last_3_months',
-                            'funding_rounds_count', 'funding_rounds_capital_raised']
+                            'funding_rounds_count', 'funding_rounds_capital_raised', "other_accelerator_count", 'technology_count', 'technology_lb_cost']
 
                 # Create dropdown selectors for x and y variables
                 x_var = st.selectbox("Select X variable:", variables, index=0)
@@ -445,7 +445,7 @@ if check_password():
                 variables = ['revenue', 'clients',
                             'employees_at_start', 'employees_at_end', 'cofounders_female',
                             'employees_hired_last_3_months', 'employees_left_last_3_months',
-                            'funding_rounds_count', 'funding_rounds_capital_raised']
+                            'funding_rounds_count', 'funding_rounds_capital_raised', "other_accelerator_count", 'technology_count', 'technology_lb_cost']
 
                 # Create dropdown selectors for x and y variables
                 x_var = st.selectbox("Select X variable:", variables, index=2)
@@ -522,7 +522,7 @@ if check_password():
             url = firm_data['website_url'].values[0]
             if url != "No":
                 st.components.v1.html(html=f'<iframe src="{url}" width=920 height=1200></iframe>', width=1200, height=1200, scrolling=True)
-            
+
     # Aggregate/tech hub-specific data
     # with park_tab:
     #     st.header("Aggregate/Tech Hub-Specific Data")
