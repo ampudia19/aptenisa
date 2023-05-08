@@ -481,7 +481,7 @@ if check_password():
         col1, col2 = st.columns([0.3,0.7])
         with col1:
 
-            firm_data = data[data["project_name"] == select_business]
+            firm_data = filtered_data[filtered_data["project_name"] == select_business]
 
             # Display the firm's information
             st.markdown(f"## {select_business}")
@@ -519,9 +519,10 @@ if check_password():
             st.markdown(f"- Accelerator Names: {firm_data['other_accelerator_names'].values[0]}")
 
         with col2:
-            url = filtered_data[filtered_data["project_name"] == select_business]["website_url"].values[0]
-            st.components.v1.html(html=f'<iframe src="{url}" width=920 height=1200></iframe>', width=1200, height=1200, scrolling=True)
-
+            url = firm_data['website_url'].values[0]
+            if url != "No":
+                st.components.v1.html(html=f'<iframe src="{url}" width=920 height=1200></iframe>', width=1200, height=1200, scrolling=True)
+            
     # Aggregate/tech hub-specific data
     # with park_tab:
     #     st.header("Aggregate/Tech Hub-Specific Data")
